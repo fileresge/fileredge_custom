@@ -9,6 +9,7 @@ const sourceDirectory = join(root, 'public', 'pages')
 const outputDirectory = join(root, 'dist')
 const template = await readFile(join(outputDirectory, 'index.html'), 'utf8')
 const today = new Date().toISOString().slice(0, 10)
+const assetVersion = '20260628-1'
 
 function absoluteUrl(path) {
   return new URL(path, siteUrl).href
@@ -168,6 +169,23 @@ function addMeta($, page) {
   }
 }
 
+function versionAssetReferences($) {
+  $('[src^="/assets/"], link[href^="/assets/"]').each((_, element) => {
+    const attribute = $(element).attr('src') ? 'src' : 'href'
+    const value = $(element).attr(attribute)
+    if (value && !value.includes('?')) $(element).attr(attribute, `${value}?v=${assetVersion}`)
+  })
+
+  $('[style*="/assets/"]').each((_, element) => {
+    const style = $(element).attr('style')
+    if (!style) return
+    $(element).attr(
+      'style',
+      style.replace(/url\((['"]?)(\/assets\/[^)'"?]+)(['"]?)\)/g, `url($1$2?v=${assetVersion}$3)`),
+    )
+  })
+}
+
 for (const page of seoPages) {
   const source = await readFile(join(sourceDirectory, page.source), 'utf8')
   const sourceDocument = load(source, { decodeEntities: false })
@@ -184,6 +202,7 @@ for (const page of seoPages) {
   addMeta(output, page)
   output('#app').html(html)
   output('body').attr('class', bodyClass)
+  versionAssetReferences(output)
 
   const initialData = JSON.stringify({ page, bodyClass, inlineScripts }).replaceAll('<', '\\u003c')
   output('script[type="module"]').first().before(`<script id="initial-page-data" type="application/json">${initialData}</script>`)
