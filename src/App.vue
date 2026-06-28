@@ -5,6 +5,13 @@ import { pageFromLocation, routeForLegacyFile, siteUrl } from './seo.js'
 
 window.axios = axios
 
+const props = defineProps({
+  initialHtml: {
+    type: String,
+    default: '',
+  },
+})
+
 function readInitialPage() {
   const element = document.getElementById('initial-page-data')
   if (!element) return null
@@ -17,7 +24,7 @@ function readInitialPage() {
 }
 
 const initialPage = readInitialPage()
-const pageHtml = ref(initialPage ? document.getElementById('app')?.innerHTML || '' : '')
+const pageHtml = ref(initialPage ? props.initialHtml : '')
 const loading = ref(!initialPage)
 const error = ref('')
 
