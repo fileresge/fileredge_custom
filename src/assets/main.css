@@ -1,0 +1,18 @@
+#app {
+  min-height: 100vh;
+}
+
+.vue-page-state {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 2rem;
+  background: #101c2c;
+  color: #fff;
+  font: 600 1rem/1.5 "Plus Jakarta Sans", sans-serif;
+  text-align: center;
+}
+
+.vue-page-state--error {
+  color: #ffb4b4;
+}
