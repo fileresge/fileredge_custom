@@ -4,10 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "sync:frontend": "node scripts/sync-frontend.mjs",
-    "predev": "npm run sync:frontend",
     "dev": "vite",
-    "prebuild": "npm run sync:frontend",
     "build": "vite build && node scripts/prerender.mjs",
     "preview": "vite preview"
   },

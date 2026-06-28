@@ -5,7 +5,7 @@ import { load } from 'cheerio'
 import { routeForLegacyFile, seoPages, siteUrl } from '../src/seo.js'
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)))
-const sourceDirectory = join(root, '..', 'frontend')
+const sourceDirectory = join(root, 'public', 'pages')
 const outputDirectory = join(root, 'dist')
 const template = await readFile(join(outputDirectory, 'index.html'), 'utf8')
 const today = new Date().toISOString().slice(0, 10)
