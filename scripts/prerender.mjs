@@ -16,6 +16,7 @@ function absoluteUrl(path) {
 
 function normalizeContent($, page) {
   $('script').remove()
+  $('.preloader').remove()
 
   $('[src]').each((_, element) => {
     const src = $(element).attr('src')?.replaceAll('\\', '/')

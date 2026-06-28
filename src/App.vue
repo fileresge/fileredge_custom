@@ -140,6 +140,7 @@ async function loadPage() {
       .filter(Boolean)
 
     parsed.querySelectorAll('script').forEach((script) => script.remove())
+    parsed.querySelector('.preloader')?.remove()
     prepareLegacyMarkup(parsed)
     document.body.className = parsed.body.className
     pageHtml.value = parsed.body.innerHTML
@@ -152,6 +153,9 @@ async function loadPage() {
 }
 
 onMounted(async () => {
+  // Content is prerendered, so a legacy full-screen loader must never hide it.
+  document.querySelector('.preloader')?.remove()
+
   if (!initialPage) return loadPage()
 
   applyMetadata(initialPage.page)
