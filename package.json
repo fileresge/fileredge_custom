@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:tax": "node --experimental-strip-types --test tests/pakistan-salary-tax.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.47.0",

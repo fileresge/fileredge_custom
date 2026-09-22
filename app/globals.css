@@ -1,47 +1,12 @@
 @import "tailwindcss";
 
-:root { --navy: #071c3d; --orange: #ff6a19; --orange-dark: #e95210; --ink: #191b20; --muted: #6c6d73; --pale: #fff8f5; }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: #fff; color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
-a { color: inherit; text-decoration: none; }
-
-.site-header { height: 72px; padding: 0 clamp(24px, 3.7vw, 52px); display: flex; align-items: center; gap: 28px; background: #fff; border-bottom: 1px solid #eeeef0; box-shadow: 0 2px 9px rgb(8 19 44 / 7%); position: relative; z-index: 2; }
-.brand { display: inline-flex; align-items: center; flex-shrink: 0; color: var(--navy); font-size: 33px; font-weight: 800; letter-spacing: -1.6px; }
-.brand-mark { width: 40px; height: 40px; margin-right: 8px; display: inline-grid; place-items: center; color: #fff; background: var(--orange); font-size: 26px; line-height: 1; letter-spacing: -3px; }
-.primary-nav { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2.1vw, 31px); flex: 1; white-space: nowrap; }
-.primary-nav a { color: #292a2f; font-size: 14px; font-weight: 700; transition: color .18s ease; }
-.primary-nav a:hover { color: var(--orange); }
-.chevron { margin-left: 3px; color: #777; vertical-align: -2px; }
-.header-actions { display: flex; align-items: center; gap: 12px; white-space: nowrap; }
-.language-switch { display: flex; padding: 3px; gap: 2px; border: 1px solid #dedee2; border-radius: 8px; }
-.language-switch button { border: 0; background: transparent; padding: 7px 9px; border-radius: 5px; color: #4b4c50; font-size: 13px; font-weight: 700; cursor: pointer; }
-.language-switch .selected { background: var(--orange); color: #fff; }
-.sign-in { padding: 10px 16px; border: 1px solid #dedee2; border-radius: 7px; color: #292a2f; font-size: 14px; font-weight: 700; }
-.file-return { display: inline-flex; align-items: center; justify-content: center; border-radius: 7px; background: var(--orange); color: #fff; font-weight: 800; box-shadow: 0 7px 13px rgb(255 106 25 / 18%); transition: background .18s ease, transform .18s ease; }
-.file-return:hover { background: var(--orange-dark); transform: translateY(-1px); }
-.header-cta { padding: 11px 16px; font-size: 14px; }
-.menu-button { display: none; margin-left: auto; border: 0; color: var(--navy); background: transparent; }
-
-.hero { min-height: 417px; overflow: hidden; padding: 23px clamp(32px, 3.7vw, 52px) 15px; display: flex; position: relative; background: radial-gradient(circle at 94% 17%, #fff2eb 0, #fff9f6 23%, var(--pale) 48%, #fff 76%); }
-.hero-copy { width: 53%; position: relative; z-index: 1; }
-.season-badge { display: inline-flex; align-items: center; margin: 0 0 18px; padding: 8px 16px; gap: 6px; border-radius: 999px; background: #fff0eb; color: var(--orange-dark); font-size: 14px; font-weight: 800; }
-h1 { max-width: 600px; margin: 0; color: #18191e; font-size: clamp(38px, 3vw, 48px); line-height: 1.08; letter-spacing: -1.8px; font-weight: 850; }
-h1 span { color: var(--orange); }
-.hero-description { max-width: 580px; margin: 21px 0 28px; color: #6c6d72; font-size: 16px; line-height: 1.65; }
-.hero-buttons { display: flex; gap: 16px; align-items: center; }
-.primary-button { padding: 14px 22px; gap: 13px; font-size: 15px; }
-.primary-button b { font-size: 22px; line-height: 12px; }
-.primary-button svg { flex: 0 0 auto; }.whatsapp-button { min-height: 47px; padding: 0 21px; display: inline-flex; align-items: center; gap: 10px; border: 1px solid #dcdee3; border-radius: 7px; background: #fff; color: #404147; font-size: 15px; font-weight: 700; }.whatsapp-button svg { color: #20bb5a; width: 21px; height: 21px; }
-.stats { display: flex; gap: clamp(22px, 3vw, 45px); margin-top: 24px; }
-.stat { display: flex; align-items: center; gap: 10px; }
-.stat p { margin: 0; display: grid; gap: 1px; }
-.stat strong { color: #27272b; font-size: 16px; line-height: 18px; }.stat small { color: #8a8a8e; font-size: 13px; white-space: nowrap; }
-.stat-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 10px; background: #ffe1dc; color: var(--orange); font-size: 28px; font-weight: 800; }.stat-icon svg { width: 25px; height: 25px; }.star { width: 40px; background: transparent; color: #ffba09; }.star svg { width: 30px; height: 30px; }.shield { width: 40px; border-radius: 0 0 15px 15px; background: transparent; color: var(--orange); }.shield svg { width: 30px; height: 30px; }
-.hero-art { width: 55%; position: absolute; right: -1.1%; bottom: -18px; height: 404px; pointer-events: none; }.hero-art img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
-
-.benefit-wrap { padding: 0 clamp(32px, 3.7vw, 52px) 20px; background: linear-gradient(110deg, #fff 0%, #fff8f5 76%, #fff 100%); }.benefit-grid { max-width: 1288px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid #dedee2; border-radius: 13px; overflow: hidden; background: #fff; box-shadow: 0 8px 17px rgb(10 25 48 / 7%); }.benefit { min-height: 84px; padding: 15px 16px; display: flex; align-items: center; gap: 13px; border-right: 1px solid #e8e8eb; }.benefit:last-child { border: 0; }.benefit-icon { width: 40px; height: 40px; flex: 0 0 40px; display: grid; place-items: center; border-radius: 50%; background: #ffe3df; color: var(--orange); }.benefit h2 { margin: 0 0 3px; color: #24252a; font-size: 13px; font-weight: 800; white-space: nowrap; }.benefit p { margin: 0; color: #85858a; font-size: 12.5px; line-height: 1.28; }.chat-float { width: 58px; height: 58px; position: fixed; right: 30px; bottom: 16px; z-index: 3; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--navy); box-shadow: 0 5px 16px rgb(7 28 61 / 27%); }
-
-@media (max-width: 1140px) { .site-header { gap: 17px; }.primary-nav { gap: 13px; }.primary-nav a { font-size: 12px; }.brand { font-size: 29px; }.header-actions { gap: 7px; }.header-cta { padding: 10px; }.sign-in { padding: 10px; }.hero-art { right: -8%; }.benefit { padding: 14px 10px; gap: 9px; }.benefit h2 { font-size: 11.5px; }.benefit p { font-size: 11.5px; } }
-@media (max-width: 900px) { .primary-nav, .header-actions { display: none; }.menu-button { display: block; }.hero { min-height: 610px; padding-top: 34px; }.hero-copy { width: 100%; }.hero-art { width: 90%; height: 300px; right: 5%; bottom: 0; }.benefit-grid { grid-template-columns: repeat(3, 1fr); }.benefit:nth-child(3) { border-right: 0; }.benefit:nth-child(-n+3) { border-bottom: 1px solid #e8e8eb; } }
-@media (max-width: 600px) { .site-header { height: 62px; padding: 0 20px; }.brand { font-size: 27px; }.brand-mark { width: 35px; height: 35px; font-size: 23px; }.hero { min-height: 660px; padding: 25px 22px 0; }.season-badge { margin-bottom: 17px; font-size: 12px; }.hero h1 { font-size: 37px; letter-spacing: -1.5px; }.hero-description { margin: 17px 0 22px; font-size: 14px; line-height: 1.55; }.hero-buttons { gap: 9px; }.primary-button, .whatsapp-button { padding: 13px 12px; font-size: 12px; }.whatsapp-button { gap: 6px; }.whatsapp-button span { font-size: 20px; }.stats { gap: 13px; margin-top: 22px; }.stat { gap: 5px; }.stat-icon { width: 31px; height: 34px; font-size: 20px; }.star, .shield { width: 28px; background: transparent; }.stat strong { font-size: 13px; }.stat small { max-width: 70px; white-space: normal; font-size: 10px; }.hero-art { width: 120%; height: 270px; right: -10%; bottom: 0; }.benefit-wrap { padding: 0 15px 20px; }.benefit-grid { grid-template-columns: 1fr; }.benefit { min-height: 68px; padding: 12px 16px; border-right: 0; border-bottom: 1px solid #e8e8eb; }.benefit:nth-child(3) { border-right: 0; }.benefit:nth-child(-n+3) { border-bottom: 1px solid #e8e8eb; }.benefit h2 { font-size: 13px; }.benefit p { font-size: 12px; }.chat-float { width: 52px; height: 52px; right: 16px; bottom: 16px; } }
+@theme {
+  --color-navy: #071c3d;
+  --color-brand-orange: #ff6a19;
+  --color-brand-orange-dark: #e95210;
+  --color-ink: #191b20;
+  --font-sans: Arial, Helvetica, sans-serif;
+  --breakpoint-sm: 601px;
+  --breakpoint-md: 901px;
+  --breakpoint-lg: 1141px;
+}
