@@ -1,18 +1,21 @@
 import Image from "next/image";
 import {
   ArrowRight,
-  ChevronDown,
-  Download,
-  Menu,
   MessageCircle,
   ShieldCheck,
   Sparkles,
   Star,
 } from "lucide-react";
-import headerLogo from "../public/header-logo.png";
 import FilingOverview from "./filing-overview";
 import PricingPlans from "./pricing-plans";
 import TaxCalculator from "./tax-calculator";
+import ClientsAndCollaborations from "./clients-and-collaborations";
+import DeadlineCta from "./deadline-cta";
+import ReviewsShort from "../components/reveiws-short";
+import { whatsappEnquiryUrl } from "../lib/business-services";
+import { createPageMetadata, pageSeo } from "../lib/seo";
+
+export const metadata = createPageMetadata({ ...pageSeo.home, path: "/" });
 
 const benefits = [
   { icon: "/svg/encryption.svg", title: "Secure & Encrypted", text: "Your data is 100% safe with bank-level security" },
@@ -22,16 +25,8 @@ const benefits = [
   { icon: "/svg/raast.svg", title: "RAAST Secure Payment", text: "Fast, safe and reliable payments via RAAST" },
 ];
 
-const navigation = [
-  { label: "Tax Tools", href: "#tax-calculator", dropdown: true },
-  { label: "Business Services", href: "#services", dropdown: true },
-  { label: "Sales Tax", href: "#sales-tax", dropdown: false },
-  { label: "Resources", href: "#resources", dropdown: true },
-];
-
 const statistics = [
-  { icon: Download, value: "1M+", label: "Downloads", iconClass: "w-[31px] rounded-[10px] bg-[#ffe1dc] text-brand-orange sm:w-12", glyphClass: "size-[25px]" },
-  { icon: Star, value: "5/5", label: "Average Rating", iconClass: "w-7 text-[#ffba09] sm:w-10", glyphClass: "size-[30px] fill-current" },
+  { icon: Star, value: "4.9/5", label: "Average Rating", iconClass: "w-7 text-[#ffba09] sm:w-10", glyphClass: "size-[30px] fill-current" },
   { icon: ShieldCheck, value: "Trusted by", label: "taxpayers across Pakistan", iconClass: "w-7 text-brand-orange sm:w-10", glyphClass: "size-[30px]" },
 ];
 
@@ -40,35 +35,6 @@ const filingButton = "inline-flex items-center justify-center rounded-[7px] bg-b
 export default function Home() {
   return (
     <main>
-      <header className="relative z-20 flex h-[62px] items-center gap-[17px] border-b border-[#eeeef0] bg-white px-5 shadow-[0_2px_9px_rgb(8_19_44/7%)] sm:h-[72px] sm:px-[clamp(24px,3.7vw,52px)] lg:gap-7">
-        <a className="inline-flex shrink-0 items-center" href="#top" aria-label="Fileredge home">
-          <Image
-            src={headerLogo}
-            alt="Fileredge"
-            className="h-auto w-[140px] sm:w-[160px] lg:w-[180px]"
-            sizes="(max-width: 600px) 140px, (max-width: 1140px) 160px, 180px"
-            loading="eager"
-          />
-        </a>
-        <nav className="hidden flex-1 items-center justify-center gap-[clamp(16px,2.1vw,31px)] whitespace-nowrap xl:flex" aria-label="Primary navigation">
-          {navigation.map((item) => (
-            <a key={item.label} href={item.href} className="inline-flex items-center gap-[3px] text-xs font-bold text-[#292a2f] transition-colors duration-200 hover:text-brand-orange lg:text-sm">
-              {item.label}
-              {item.dropdown && <ChevronDown className="text-[#777]" size={14} strokeWidth={2.5} aria-hidden="true" />}
-            </a>
-          ))}
-        </nav>
-        <div className="hidden items-center gap-3 whitespace-nowrap xl:flex">
-          <div className="flex gap-0.5 rounded-lg border border-[#dedee2] p-[3px]" aria-label="Language selection">
-            <button className="cursor-pointer rounded-[5px] bg-brand-orange px-[9px] py-[7px] text-[13px] font-bold text-white">English</button>
-            <button className="cursor-pointer rounded-[5px] px-[9px] py-[7px] text-[13px] font-bold text-[#4b4c50]" lang="ur">اردو</button>
-          </div>
-          <a className="rounded-[7px] border border-[#dedee2] p-2.5 text-sm font-bold text-[#292a2f] lg:px-4" href="#signin">Sign In</a>
-          <a className={`${filingButton} p-2.5 text-sm lg:px-4 lg:py-[11px]`} href="#file">File Tax Return</a>
-        </div>
-        <button className="ml-auto block text-navy xl:hidden" aria-label="Open menu"><Menu /></button>
-      </header>
-
       <section className="relative flex min-h-[660px] flex-col overflow-hidden bg-[radial-gradient(circle_at_94%_17%,#fff2eb_0%,#fff9f6_23%,#fff8f5_48%,#fff_76%)] px-[22px] pt-[25px] sm:min-h-[610px] sm:px-[clamp(32px,3.7vw,52px)] sm:pt-[34px] md:min-h-[417px] md:flex-row md:pt-[23px] md:pb-[15px]" id="top">
         <div className="relative z-10 w-full md:w-[53%]">
           <p className="mb-[17px] inline-flex items-center gap-1.5 rounded-full bg-[#fff0eb] px-4 py-2 text-xs font-extrabold text-brand-orange-dark sm:mb-[18px] sm:text-sm">
@@ -84,7 +50,7 @@ export default function Home() {
             <a className={`${filingButton} gap-[13px] px-3 py-[13px] text-xs sm:px-[22px] sm:py-3.5 sm:text-[15px]`} href="#file">
               Start Filing Now <ArrowRight className="shrink-0" size={19} strokeWidth={2.6} aria-hidden="true" />
             </a>
-            <a className="inline-flex min-h-[47px] items-center gap-1.5 rounded-[7px] border border-[#dcdee3] bg-white px-3 py-[13px] text-xs font-bold text-[#404147] sm:gap-2.5 sm:px-[21px] sm:py-0 sm:text-[15px]" href="#whatsapp">
+            <a className="inline-flex min-h-[47px] items-center gap-1.5 rounded-[7px] border border-[#dcdee3] bg-white px-3 py-[13px] text-xs font-bold text-[#404147] sm:gap-2.5 sm:px-[21px] sm:py-0 sm:text-[15px]" href={whatsappEnquiryUrl("income tax filing")!} target="_blank" rel="noopener noreferrer">
               <Image src="/svg/whatsapp.svg" alt="" width={21} height={21} className="size-[21px] shrink-0" unoptimized />
               Chat on WhatsApp
             </a>
@@ -122,6 +88,9 @@ export default function Home() {
       <FilingOverview />
       <PricingPlans />
       <TaxCalculator />
+      <ClientsAndCollaborations />
+      <div id="resources"><ReviewsShort /></div>
+      <DeadlineCta />
       <button className="fixed right-4 bottom-4 z-30 grid size-[52px] place-items-center rounded-full bg-navy shadow-[0_5px_16px_rgb(7_28_61/27%)] sm:right-[30px] sm:size-[58px]" aria-label="Open support chat">
         <MessageCircle size={27} className="fill-navy text-white" />
       </button>
