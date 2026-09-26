@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {
   ArrowRight,
-  MessageCircle,
   ShieldCheck,
   Sparkles,
   Star,
@@ -13,7 +12,8 @@ import ClientsAndCollaborations from "./clients-and-collaborations";
 import DeadlineCta from "./deadline-cta";
 import ReviewsShort from "../components/reveiws-short";
 import { whatsappEnquiryUrl } from "../lib/business-services";
-import { createPageMetadata, pageSeo } from "../lib/seo";
+import { createPageMetadata, pageSeo, webPageSchema } from "../lib/seo";
+import StructuredData from "../components/structured-data";
 
 export const metadata = createPageMetadata({ ...pageSeo.home, path: "/" });
 
@@ -35,27 +35,36 @@ const filingButton = "inline-flex items-center justify-center rounded-[7px] bg-b
 export default function Home() {
   return (
     <main>
-      <section className="relative flex min-h-[660px] flex-col overflow-hidden bg-[radial-gradient(circle_at_94%_17%,#fff2eb_0%,#fff9f6_23%,#fff8f5_48%,#fff_76%)] px-[22px] pt-[25px] sm:min-h-[610px] sm:px-[clamp(32px,3.7vw,52px)] sm:pt-[34px] md:min-h-[417px] md:flex-row md:pt-[23px] md:pb-[15px]" id="top">
-        <div className="relative z-10 w-full md:w-[53%]">
+      <StructuredData data={webPageSchema({ ...pageSeo.home, path: "/" })} />
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_94%_17%,#fff2eb_0%,#fff9f6_23%,#fff8f5_48%,#fff_76%)] px-5 pt-5 pb-7 text-center sm:px-[clamp(32px,3.7vw,52px)] sm:pt-[34px] md:min-h-[417px] md:pt-[23px] md:pb-[15px] md:text-left" id="top">
+        <div className="relative z-10 mx-auto max-w-[600px] md:mx-0 md:w-[53%]">
           <p className="mb-[17px] inline-flex items-center gap-1.5 rounded-full bg-[#fff0eb] px-4 py-2 text-xs font-extrabold text-brand-orange-dark sm:mb-[18px] sm:text-sm">
             Tax Season 2026 is Here! <Sparkles size={16} aria-hidden="true" />
           </p>
-          <h1 className="max-w-[600px] text-[37px] leading-[1.08] font-[850] tracking-[-1.5px] text-[#18191e] sm:text-[clamp(38px,3vw,48px)] sm:tracking-[-1.8px]">
-            Your taxes.<br /><span className="text-brand-orange">Our expertise.</span>
+          <h1 className="text-[clamp(28px,7.5vw,38px)] leading-[1.12] font-[850] tracking-[-1px] text-[#18191e] md:text-[clamp(38px,3vw,48px)] md:leading-[1.08] md:tracking-[-1.8px]">
+            Tax filing in Pakistan.<br /><span className="text-brand-orange">Made simple.</span>
           </h1>
-          <p className="mt-[17px] mb-[22px] max-w-[580px] text-sm leading-[1.55] text-[#6c6d72] sm:mt-[21px] sm:mb-7 sm:text-base sm:leading-[1.65]">
+        </div>
+        <div className="pointer-events-none relative mx-auto mt-5 mb-6 aspect-[1218/730] w-full max-w-[600px] md:absolute md:right-[-8%] md:bottom-[-18px] md:m-0 md:aspect-auto md:h-[404px] md:w-[55%] md:max-w-none lg:right-[-1.1%]" aria-label="Fileredge tax dashboard and filing tools">
+          <Image src="/images/banner-image.png" alt="Tax filing dashboard, calculator, FBR compliance shield and plants" width={1218} height={730} loading="eager" fetchPriority="high" sizes="(max-width: 900px) 90vw, 55vw" className="size-full object-contain object-center" />
+        </div>
+        <div className="relative z-10 mx-auto max-w-[600px] md:mx-0 md:w-[53%]">
+          <p className="mb-7 text-[17px] leading-[1.65] text-[#6c6d72] md:mt-[21px] md:max-w-[580px] md:text-base">
+            <span className="md:hidden">File your tax return with expert guidance and personal support. Simple steps, clear advice, and a team that&apos;s here to help.</span>
+            <span className="hidden md:inline">
             Move forward with confidence. Fileredge helps you prepare and file your Pakistan tax return, with personal guidance from your first document to final submission.
+            </span>
           </p>
-          <div className="flex flex-wrap items-center gap-[9px] sm:gap-4">
-            <a className={`${filingButton} gap-[13px] px-3 py-[13px] text-xs sm:px-[22px] sm:py-3.5 sm:text-[15px]`} href="#file">
+          <div className="flex flex-col gap-3.5 md:flex-row md:flex-wrap md:items-center md:gap-4">
+            <a className={`${filingButton} min-h-12 w-full gap-3 px-[22px] py-3.5 text-base md:w-auto md:text-[15px]`} href="#file">
               Start Filing Now <ArrowRight className="shrink-0" size={19} strokeWidth={2.6} aria-hidden="true" />
             </a>
-            <a className="inline-flex min-h-[47px] items-center gap-1.5 rounded-[7px] border border-[#dcdee3] bg-white px-3 py-[13px] text-xs font-bold text-[#404147] sm:gap-2.5 sm:px-[21px] sm:py-0 sm:text-[15px]" href={whatsappEnquiryUrl("income tax filing")!} target="_blank" rel="noopener noreferrer">
+            <a className="inline-flex min-h-12 w-full items-center justify-center gap-2.5 rounded-[7px] border border-[#dcdee3] bg-white px-[21px] py-3.5 text-base font-bold text-[#404147] shadow-[0_3px_12px_rgb(7_28_61/4%)] md:w-auto md:py-0 md:text-[15px]" href={whatsappEnquiryUrl("income tax filing")!} target="_blank" rel="noopener noreferrer">
               <Image src="/svg/whatsapp.svg" alt="" width={21} height={21} className="size-[21px] shrink-0" unoptimized />
               Chat on WhatsApp
             </a>
           </div>
-          <div className="mt-[22px] flex flex-wrap gap-[13px] sm:mt-6 sm:gap-[clamp(22px,3vw,45px)]" aria-label="Fileredge statistics">
+          <div className="mt-6 hidden flex-wrap gap-[clamp(22px,3vw,45px)] md:flex" aria-label="Fileredge statistics">
             {statistics.map(({ icon: Icon, value, label, iconClass, glyphClass }) => (
               <div key={label} className="flex items-center gap-[5px] sm:gap-2.5">
                 <span className={`grid h-[34px] shrink-0 place-items-center sm:h-12 ${iconClass}`}><Icon className={glyphClass} aria-hidden="true" /></span>
@@ -66,9 +75,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="pointer-events-none relative -left-[10%] mt-auto h-[270px] w-[120%] shrink-0 sm:left-auto sm:mx-auto sm:h-[300px] sm:w-[90%] md:absolute md:right-[-8%] md:bottom-[-18px] md:m-0 md:h-[404px] md:w-[55%] lg:right-[-1.1%]" aria-label="Fileredge tax dashboard and filing tools">
-          <Image src="/images/banner-image.png" alt="Tax filing dashboard, calculator, FBR compliance shield and plants" width={1218} height={730} loading="eager" fetchPriority="high" sizes="(max-width: 600px) 120vw, (max-width: 900px) 90vw, 55vw" className="size-full object-contain object-center" />
         </div>
       </section>
 
@@ -91,9 +97,6 @@ export default function Home() {
       <ClientsAndCollaborations />
       <div id="resources"><ReviewsShort /></div>
       <DeadlineCta />
-      <button className="fixed right-4 bottom-4 z-30 grid size-[52px] place-items-center rounded-full bg-navy shadow-[0_5px_16px_rgb(7_28_61/27%)] sm:right-[30px] sm:size-[58px]" aria-label="Open support chat">
-        <MessageCircle size={27} className="fill-navy text-white" />
-      </button>
     </main>
   );
 }

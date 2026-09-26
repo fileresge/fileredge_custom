@@ -4,10 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import MobileNavigation from "./mobile-navigation";
 import { ArrowRight, BookOpen, ChevronDown, Menu, UsersRound, X } from "lucide-react";
 import headerLogo from "../public/header-logo.png";
 import { serviceCategories, serviceCategoryUrl } from "../lib/business-services";
 import ServiceIcon from "./service-icon";
+import TaxToolIcon from "./tax-tool-icon";
+import { taxToolLinks } from "../lib/tax-tools";
 
 const navClass = "inline-flex items-center gap-1 rounded-lg px-3 py-3 text-sm font-bold transition-colors hover:bg-[#fff4ed] hover:text-brand-orange-dark focus-visible:outline-2 focus-visible:outline-brand-orange";
 
@@ -17,26 +21,29 @@ const resourceLinks = [
 ];
 
 export default function SiteHeader() {
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<"tax" | "services" | "resources" | null>(null);
+  const taxOpen = activeMenu === "tax";
+  const servicesOpen = activeMenu === "services";
+  const resourcesOpen = activeMenu === "resources";
+  const setServicesOpen = (open: boolean) => setActiveMenu((current) => open ? "services" : current === "services" ? null : current);
+  const setResourcesOpen = (open: boolean) => setActiveMenu((current) => open ? "resources" : current === "resources" ? null : current);
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const servicesButton = useRef<HTMLButtonElement>(null);
+  const taxButton = useRef<HTMLButtonElement>(null);
   const resourcesButton = useRef<HTMLButtonElement>(null);
   const mobileButton = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   function closeMenus() {
-    setServicesOpen(false);
-    setResourcesOpen(false);
+    setActiveMenu(null);
     setMobileOpen(false);
   }
 
   useEffect(() => {
     function onPointerDown(event: PointerEvent) {
       if (!headerRef.current?.contains(event.target as Node)) {
-        setServicesOpen(false);
-        setResourcesOpen(false);
+        setActiveMenu(null);
         setMobileOpen(false);
       }
     }
@@ -48,12 +55,13 @@ export default function SiteHeader() {
     <header
       ref={headerRef}
       className="relative z-40 border-b border-[#eeeef0] bg-white shadow-[0_2px_9px_rgb(8_19_44/7%)]"
-      onMouseLeave={() => { setServicesOpen(false); setResourcesOpen(false); }}
+      onMouseLeave={() => setActiveMenu(null)}
       onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) closeMenus(); }}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           event.preventDefault();
           if (mobileOpen) mobileButton.current?.focus();
+          else if (taxOpen) taxButton.current?.focus();
           else if (resourcesOpen) resourcesButton.current?.focus();
           else servicesButton.current?.focus();
           closeMenus();
@@ -65,7 +73,30 @@ export default function SiteHeader() {
           <Image src={headerLogo} alt="Fileredge" className="h-auto w-[140px] sm:w-[160px] lg:w-[180px]" sizes="(max-width: 600px) 140px, (max-width: 1140px) 160px, 180px" loading="eager" />
         </Link>
         <nav className="hidden h-full flex-1 items-center justify-center gap-1 whitespace-nowrap xl:flex" aria-label="Primary navigation">
-          <Link href="/#tax-calculator" className={navClass} onMouseEnter={() => { setServicesOpen(false); setResourcesOpen(false); }}>Tax Tools <ChevronDown size={14} aria-hidden="true" /></Link>
+          <div className="relative flex h-full items-center" onMouseLeave={() => setActiveMenu((current) => current === "tax" ? null : current)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setActiveMenu((current) => current === "tax" ? null : current); }}>
+            <button
+              ref={taxButton}
+              type="button"
+              aria-expanded={taxOpen}
+              aria-controls="tax-tools-menu"
+              className={`${navClass} cursor-pointer ${taxOpen || pathname.startsWith("/tax-tools") ? "bg-[#fff4ed] text-brand-orange-dark" : "text-[#292a2f]"}`}
+              onMouseEnter={() => setActiveMenu("tax")}
+              onClick={() => setActiveMenu(taxOpen ? null : "tax")}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowDown") {
+                  event.preventDefault();
+                  setActiveMenu("tax");
+                  requestAnimationFrame(() => document.querySelector<HTMLAnchorElement>("#tax-tools-menu a")?.focus());
+                }
+              }}
+            >Tax Tools <ChevronDown size={14} className={`transition-transform ${taxOpen ? "rotate-180" : ""}`} aria-hidden="true" /></button>
+            <div id="tax-tools-menu" hidden={!taxOpen} className="absolute top-full -left-10 w-[310px] pt-2">
+              <nav aria-label="Tax tools" className="relative rounded-[20px] border border-[#e8e8ed] bg-white p-3 shadow-[0_10px_30px_rgb(7_28_61/12%)]">
+                <span aria-hidden="true" className="absolute -top-[7px] left-[92px] size-3 rotate-45 border-t border-l border-[#e8e8ed] bg-white" />
+                {taxToolLinks.map((item) => <Link key={item.href} href={item.href} onClick={closeMenus} aria-current={pathname === item.href ? "page" : undefined} className="flex items-center gap-4 rounded-xl px-4 py-4 text-lg font-semibold text-[#292a2f] transition-colors hover:bg-[#fff4ed] hover:text-brand-orange-dark focus-visible:outline-2 focus-visible:outline-brand-orange"><TaxToolIcon icon={item.icon} className="size-8 shrink-0" />{item.label}</Link>)}
+              </nav>
+            </div>
+          </div>
           <button
             ref={servicesButton}
             type="button"
@@ -114,10 +145,10 @@ export default function SiteHeader() {
             <button className="rounded-[5px] bg-brand-orange px-[9px] py-[7px] text-[13px] font-bold text-white">English</button>
             <button className="rounded-[5px] px-[9px] py-[7px] text-[13px] font-bold text-[#4b4c50]" lang="ur">اردو</button>
           </div>
-          <Link href="/#signin" className="rounded-lg border border-[#dedee2] px-4 py-2.5 text-sm font-bold">Sign In</Link>
+          <Link href="/tax-tools/contact" className="rounded-lg border border-[#dedee2] px-4 py-2.5 text-sm font-bold">Contact</Link>
           <Link href={serviceCategoryUrl("income-tax")} onClick={closeMenus} className="rounded-lg bg-brand-orange px-4 py-3 text-sm font-extrabold text-white shadow-[0_7px_13px_rgb(255_106_25/18%)] transition-colors hover:bg-brand-orange-dark">File Tax Return</Link>
         </div>
-        <button ref={mobileButton} type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation" className="ml-auto rounded-lg p-2 text-navy focus-visible:outline-2 focus-visible:outline-brand-orange xl:hidden" onClick={() => { setMobileOpen(!mobileOpen); setServicesOpen(false); setResourcesOpen(false); }}>
+        <button ref={mobileButton} type="button" aria-label={mobileOpen ? "Close menu" : "Open menu"} aria-expanded={mobileOpen} aria-controls="mobile-navigation" className="ml-auto grid size-11 place-items-center rounded-lg p-2 text-navy focus-visible:outline-2 focus-visible:outline-brand-orange xl:hidden" onClick={() => { setMobileOpen(!mobileOpen); setActiveMenu(null); }}>
           {mobileOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -137,18 +168,7 @@ export default function SiteHeader() {
         </nav>
       </div>
 
-      {mobileOpen && <nav id="mobile-navigation" aria-label="Mobile navigation" className="absolute top-full right-0 left-0 max-h-[calc(100dvh-72px)] overflow-y-auto border-t border-[#eeeef0] bg-white p-5 shadow-xl xl:hidden">
-        <Link href="/#tax-calculator" onClick={closeMenus} className="block rounded-lg p-3 font-bold text-navy">Tax Tools</Link>
-        <button type="button" aria-expanded={servicesOpen} aria-controls="mobile-services" onClick={() => { setServicesOpen(!servicesOpen); setResourcesOpen(false); }} className="flex w-full items-center justify-between rounded-lg bg-[#fff4ed] p-3 font-bold text-brand-orange-dark">Business Services <ChevronDown size={18} className={servicesOpen ? "rotate-180" : ""} /></button>
-        {servicesOpen && <div id="mobile-services" className="grid gap-1 py-2 pl-3">
-          {serviceCategories.map((category) => <Link key={category.id} href={serviceCategoryUrl(category.id)} onClick={closeMenus} className="flex items-center gap-3 rounded-lg p-3 text-sm text-navy hover:bg-[#fff4ed]"><ServiceIcon category={category.id} className="size-5 text-brand-orange" />{category.title}</Link>)}
-          <Link href="/business-services" onClick={closeMenus} className="p-3 text-sm font-bold text-brand-orange-dark">View All Services →</Link>
-        </div>}
-        <Link href={serviceCategoryUrl("sales-tax")} onClick={closeMenus} className="block rounded-lg p-3 font-bold text-navy">Sales Tax</Link>
-        <button type="button" aria-expanded={resourcesOpen} aria-controls="mobile-resources" onClick={() => { setResourcesOpen(!resourcesOpen); setServicesOpen(false); }} className="flex w-full items-center justify-between rounded-lg p-3 font-bold text-navy">Resources <ChevronDown size={18} className={resourcesOpen ? "rotate-180" : ""} aria-hidden="true" /></button>
-        {resourcesOpen && <div id="mobile-resources" className="grid gap-1 py-2 pl-3">{resourceLinks.map(({ href, label, icon: Icon }) => <Link key={href} href={href} onClick={closeMenus} className="flex items-center gap-3 rounded-lg p-3 text-sm text-navy hover:bg-[#fff4ed]"><Icon size={20} className="text-brand-orange" aria-hidden="true" />{label}</Link>)}</div>}
-        <Link href={serviceCategoryUrl("income-tax")} onClick={closeMenus} className="mt-3 block rounded-lg bg-brand-orange p-3 text-center font-bold text-white">File Tax Return</Link>
-      </nav>}
+      <AnimatePresence>{mobileOpen && <MobileNavigation key="mobile-drawer" onClose={closeMenus} />}</AnimatePresence>
     </header>
   );
 }

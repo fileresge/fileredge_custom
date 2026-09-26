@@ -5,7 +5,11 @@ import StructuredData from "../../components/structured-data";
 import { absoluteUrl, breadcrumbSchema, createPageMetadata, pageSeo } from "../../lib/seo";
 import { businessServices, filterServices, serviceCategories } from "../../lib/business-services";
 
-export const metadata = createPageMetadata({ ...pageSeo.services, path: "/business-services" });
+export async function generateMetadata({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  const params = await searchParams;
+  // Filters share the catalog's canonical URL; search results are not landing pages.
+  return createPageMetadata({ ...pageSeo.services, path: "/business-services", noIndex: Boolean(params.q) });
+}
 
 export default async function BusinessServicesPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   // Reading the request filters renders the catalog on the server and keeps its

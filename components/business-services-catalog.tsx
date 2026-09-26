@@ -86,7 +86,7 @@ export default function BusinessServicesCatalog() {
               <ul className="grid gap-2.5">
                 {service.requirements.map((requirement, index) => <li key={index} className="flex items-start gap-3 text-sm leading-relaxed text-[#646975] sm:text-[15px]"><span className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-[#fff0e7] text-brand-orange-dark"><Check size={13} strokeWidth={3} aria-hidden="true" /></span>{requirement}</li>)}
               </ul>
-              <div className="mt-7 flex flex-wrap justify-end gap-3">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
                 <button type="button" onClick={() => setCallbackService(service)} className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-orange px-5 py-3.5 text-sm font-bold text-white shadow-[0_5px_12px_rgb(255_106_25/18%)] transition-colors hover:bg-brand-orange-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"><PhoneCall size={17} aria-hidden="true" />Request a call</button>
                 <a href={whatsappEnquiryUrl(service.title)!} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#27b76b] px-5 py-3.5 text-sm font-bold text-[#16854b] transition-colors hover:bg-[#f0fcf5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#27b76b]"><Image src="/svg/whatsapp.svg" alt="" width={21} height={21} unoptimized />Chat on WhatsApp</a>
               </div>

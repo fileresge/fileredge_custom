@@ -12,7 +12,7 @@ export function generateStaticParams() { return blogPosts.map((post) => ({ slug:
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const post = getBlogPost((await params).slug);
-  return post ? createPageMetadata({ title: post.seoTitle, description: post.excerpt, path: `/blog/${post.slug}`, article: true }) : { title: "Article not found | Fileredge", robots: { index: false, follow: true } };
+  return post ? createPageMetadata({ title: post.seoTitle, description: post.excerpt, path: `/blog/${post.slug}`, article: true, keywords: [post.seoTitle, post.category, "Fileredge Journal"] }) : { title: "Article not found | Fileredge", robots: { index: false, follow: true } };
 }
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {

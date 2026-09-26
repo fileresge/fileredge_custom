@@ -26,7 +26,7 @@ export default function ServiceCallbackDialog({ service, onClose }: { service: B
   }, []);
 
   return (
-    <dialog ref={dialogRef} aria-labelledby="callback-heading" onCancel={onClose} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }} className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-32px)] max-w-lg overflow-y-auto rounded-3xl border-0 bg-white p-6 text-navy shadow-2xl backdrop:bg-navy/45 sm:p-8">
+    <dialog ref={dialogRef} aria-labelledby="callback-heading" onCancel={onClose} onClick={(event) => { if (event.target === event.currentTarget) onClose(); }} className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%_-_32px)] max-w-lg overflow-y-auto rounded-3xl border-0 bg-white p-6 text-navy shadow-2xl backdrop:bg-navy/45 sm:p-8">
       <div className="flex items-start justify-between gap-4">
         <div><span className="mb-4 grid size-11 place-items-center rounded-xl bg-[#fff0e7] text-brand-orange-dark"><PhoneCall size={22} /></span><h2 id="callback-heading" className="text-2xl font-extrabold">Let&apos;s talk about your service</h2></div>
         <button type="button" onClick={onClose} aria-label="Close callback form" className="rounded-lg p-2 text-[#747780] hover:bg-[#f5f5f7] focus-visible:outline-2 focus-visible:outline-brand-orange"><X size={21} /></button>

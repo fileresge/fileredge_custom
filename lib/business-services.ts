@@ -36,6 +36,7 @@ export function serviceCategoryUrl(category: string) {
 
 // Optional deployment overrides for the business contact details.
 export const serviceContact = {
+  email: "info.fileredge@gmail.com",
   whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "923362137034").replace(/\D/g, ""),
 };
 

@@ -16,7 +16,7 @@ export default function BlogArtwork({ post, featured = false }: { post: BlogPost
       <div className="absolute -bottom-24 -left-16 -z-10 size-64 rounded-full border-[42px] border-current opacity-[0.045]" />
       <p className="text-[10px] font-bold tracking-[0.22em] opacity-70">THE FILEREDGE JOURNAL</p>
       <div className={`mt-6 grid w-fit place-items-center rounded-2xl p-4 ${accent}`}><Icon size={featured ? 45 : 30} strokeWidth={1.4} /></div>
-      <p className={`mt-7 max-w-[310px] leading-[1.15] font-extrabold tracking-[-1px] ${featured ? "text-[38px] sm:text-[46px]" : "text-[28px]"}`}>{post.coverTitle}</p>
+      <p className={`mt-7 max-w-[310px] leading-[1.15] font-extrabold tracking-[-1px] wrap-anywhere ${featured ? "text-[clamp(28px,8vw,38px)] sm:text-[46px]" : "text-[28px]"}`}>{post.coverTitle}</p>
       <span className="absolute right-7 bottom-7 size-3 rounded-full bg-current opacity-35" />
     </div>
   );

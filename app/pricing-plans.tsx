@@ -1,4 +1,6 @@
 import { Check, FileCheck2, UserRoundCheck, Zap } from "lucide-react";
+import MobileCarousel from "../components/mobile-carousel";
+import { whatsappEnquiryUrl } from "../lib/business-services";
 
 const plans = [
   {
@@ -67,7 +69,8 @@ export default function PricingPlans() {
           <p className="mt-4 text-[15px] leading-relaxed text-[#687487] sm:text-base">Flexible options. Expert support. A plan for every filing need.</p>
         </div>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-5 lg:gap-7">
+        <div className="mt-8">
+        <MobileCarousel label="Tax filing plans" labels={plans.map((plan) => plan.name)} initialIndex={1}>
           {plans.map((plan) => (
             <article
               key={plan.id}
@@ -107,15 +110,18 @@ export default function PricingPlans() {
                 ))}
               </ul>
 
-              <button
-                type="button"
+              <a
+                href={whatsappEnquiryUrl(plan.name)!}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={`${plan.action}: ${plan.name}, PKR ${plan.price}`}
                 className="mt-2 inline-flex min-h-12 w-full cursor-pointer items-center justify-center rounded-xl bg-brand-orange px-4 py-3 text-sm font-bold text-white shadow-[0_5px_14px_rgb(255_106_25/18%)] transition-colors hover:bg-brand-orange-dark focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
               >
                 {plan.action}
-              </button>
+              </a>
             </article>
           ))}
+        </MobileCarousel>
         </div>
       </div>
     </section>

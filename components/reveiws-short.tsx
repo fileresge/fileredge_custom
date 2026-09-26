@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, Clapperboard, Play, Star } from "lucide-react";
+import MobileCarousel from "./mobile-carousel";
 
 export type ShortReview = {
   id: string;
@@ -223,13 +224,13 @@ export default function ReviewsShort({
             <div className="max-w-[430px]">
               <h2 className="text-[26px] leading-[1.25] font-extrabold tracking-[-0.7px] text-[#1c1c1c] sm:text-[32px]">{reviewsTitle}</h2>
               {reviews === demoReviews && <p className="mt-2 text-xs font-medium text-[#85858a]">
-               Google reviews</p>}
+               Sample client feedback</p>}
             </div>
             {allReviewsUrl && <a href={allReviewsUrl} className={linkClassName}>View all reviews <ArrowRight size={18} aria-hidden="true" /></a>}
           </header>
-          <ul className="grid gap-5 sm:grid-cols-3 lg:gap-4 2xl:gap-6">
+          <MobileCarousel label="Client reviews" labels={reviews.map((review) => `${review.name}'s review`)} initialIndex={1}>
             {reviews.map((review, index) => (
-              <li key={review.id} className="flex min-w-0 flex-col rounded-[19px] border border-[#e6e6e6] bg-white p-5 shadow-[0_2px_7px_rgb(0_0_0/5%)] sm:min-h-[300px] lg:px-4 2xl:p-6">
+              <article key={review.id} className="flex min-h-[270px] min-w-0 flex-col rounded-[19px] border border-[#e6e6e6] bg-white p-5 shadow-[0_2px_7px_rgb(0_0_0/5%)] sm:min-h-[300px] lg:px-4 2xl:p-6">
                 <div className="mb-4 flex gap-1" role="img" aria-label={`${review.rating} out of 5 stars`}>
                   {Array.from({ length: 5 }, (_, starIndex) => <Star key={starIndex} size={20} className={starIndex < review.rating ? "fill-[#ff9c19] text-[#ff9c19]" : "fill-[#e8e8eb] text-[#e8e8eb]"} aria-hidden="true" />)}
                 </div>
@@ -241,9 +242,9 @@ export default function ReviewsShort({
                     <p className="mt-1 text-xs text-[#85858a] 2xl:text-sm">{review.dateLabel}</p>
                   </div>
                 </div>
-              </li>
+              </article>
             ))}
-          </ul>
+          </MobileCarousel>
         </section>
 
         <section aria-label={reelsTitle} className={panelClassName}>
